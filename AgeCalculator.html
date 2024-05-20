@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGE CALCULATOR APP - CODE ALPHA INTERNSHIP PROGRAMME</title>
+    
+<!-- favicon CSS -->
+<link rel="icon" href="">
+
+<!-- bootstrap css -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- font i used -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap">
+
+<!-- internal CSS -->
+<style>
+*,
+*:before,
+*:after {
+	padding: 0;
+	margin: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	background-color: rgb(153, 149, 149);
+}
+.container {
+	width: 40%;
+	min-width: 320px;
+	position: absolute;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	left: 50%;
+	top: 50%;
+}
+.container * {
+	font-family: "Poppins", sans-serif;
+	border: none;
+	outline: none;
+}
+.inputs-wrapper {
+	background-color: #080808;
+	padding: 30px 25px;
+	border-radius: 8px;
+	margin-bottom: 40px;
+	-webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+}
+input,
+button {
+	height: 50px;
+	background-color: #ffffff;
+	color: #080808;
+	font-weight: 500;
+	border-radius: 5px;
+}
+input {
+	width: 100%;
+	padding: 0 20px;
+	font-size: 14px;
+	margin: 20px 0;
+}
+button {
+	width: 100%;
+	background-color: rgb(153, 149, 149);
+}
+
+span {
+	font-size: 25px;
+	font-weight: 500;
+}
+p {
+	font-size: 23px;
+	color: #707070;
+	font-weight: bolder;
+    text-align: center;
+    font-family: "Poppins";
+    word-spacing: 2px;
+
+}
+a {
+	display: block;
+	width: 100%;
+	background-color: #080808;
+	color: #ffffff;
+	padding: 10px 0;
+	text-align: center;
+	text-decoration: none;
+	margin-top: 40px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+}
+
+footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #080808;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+</style>
+</head>
+
+<body>
+
+    <br>
+    <!-- Header -->
+    <div class="alert alert-light">
+        <p>AGE CALCULATOR APP<sup>&trade;</sup></p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Input Section -->
+        <div class="inputs-wrapper">
+            <input type="text" id="name-input" placeholder="Enter your name" required>
+            <input type="date" id="date-input" required>
+            <button onclick="ageCalculate()">Calculate</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="outputs-wrapper " style="display: none;">
+            <a href="#" onclick="location.reload();">RESET<i class="fab fa-youtube"></i></a>
+
+            <div class="alert alert-success">
+
+                <span id="result"></span>
+            </div>
+        </div>
+
+        <!-- Source Code Link -->
+        <a href="https://github.com/Johnezmy/CodeAlpha_Project_Name.git" target="_blank">Source Code on (GitHub)<i class="fab fa-youtube"></i></a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Developed by: Onivefu A. John
+    </footer>
+
+    <!-- The javascript code goes here -->
+
+    <script>
+        // Array to store days in each month
+        const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    
+        // Function to check if it's a leap year
+        function leapchecker(year) {
+            if (year % 4 == 0 || (year % 100 == 0 && year % 400 == 0)) {
+                months[1] = 29;
+            } else {
+                months[1] = 28;
+            }
+        }
+    
+        // Function to calculate age
+     // Function to calculate age
+function ageCalculate() {
+    // Getting input values
+    let name = document.getElementById("name-input").value;
+    let dateInput = document.getElementById("date-input").value;
+
+    // Check if input fields are empty
+    if (name.trim() === "" || dateInput === "") {
+        // Display message indicating no age calculated
+        let result = document.getElementById("result");
+        result.innerHTML = "No age calculated.";
+        // Hide input section, show output section
+        document.querySelector(".inputs-wrapper").style.display = "none";
+        document.querySelector(".outputs-wrapper").style.display = "block";
+        return; // Exit the function
+    }
+
+    let today = new Date();
+    let inputDate = new Date(dateInput);
+
+            // Variables for birth details
+            let birthMonth, birthDate, birthYear;
+            let birthDetails = {
+                date: inputDate.getDate(),
+                month: inputDate.getMonth() + 1,
+                year: inputDate.getFullYear()
+            };
+            let currentYear = today.getFullYear();
+            let currentMonth = today.getMonth() + 1;
+            let currentDate = today.getDate();
+    
+            // Check for leap year
+            leapchecker(currentYear);
+    
+            // Check if birthdate is in the future
+            if (
+                birthDetails.year > currentYear ||
+                (birthDetails.month > currentMonth && birthDetails.year == currentYear) ||
+                (birthDetails.date > currentDate &&
+                    birthDetails.month == currentMonth &&
+                    birthDetails.year == currentYear)
+            ) {
+                alert("Not yet born");
+                return;
+            }
+    
+            // Calculate age
+            birthYear = currentYear - birthDetails.year;
+            if (currentMonth >= birthDetails.month) {
+                birthMonth = currentMonth - birthDetails.month;
+            } else {
+                birthYear--;
+                birthMonth = 12 + currentMonth - birthDetails.month;
+            }
+    
+            if (currentDate >= birthDetails.date) {
+                birthDate = currentDate - birthDetails.date;
+            } else {
+                birthMonth--;
+                let days = months[currentMonth - 2];
+                birthDate = days + currentDate - birthDetails.date;
+                if (birthMonth < 0) {
+                    birthMonth = 11;
+                    birthYear--;
+                }
+            }
+            // Display result
+            displayResult(name, birthDate, birthMonth, birthYear);
+        }
+    
+        // Function to display result
+        function displayResult(name, bDate, bMonth, bYear) {
+            let result = document.getElementById("result");
+            result.innerHTML = `Hey, <b>${name}</b>, you are <b>${bYear}</b> years <b>${bMonth}</b> months and <b>${bDate}</b> days old.`;
+            // Hide input section, show output section
+            document.querySelector(".inputs-wrapper").style.display = "none";
+            document.querySelector(".outputs-wrapper").style.display = "block";
+        }
+    </script>
+</body>
+</html>
